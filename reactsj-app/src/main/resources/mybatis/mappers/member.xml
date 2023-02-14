@@ -21,7 +21,7 @@
   	
   	<insert id="memberInsert" parameterType="com.douzone.reactSJ.vo.MemberVO">
 		insert into tb_member(user_id, user_name, user_pwd, user_phone, user_email, user_birth) 
-		values(#{userid}, #{username}, #{userpwd}, #{userphone}, #{useremail}, #{userbirth});  	
+		values(#{userid}, #{username}, #{userpwd}, #{userphone}, #{useremail}, #{userbirth})	
   	</insert>
   	
   	<select id="memberSelectbyId" parameterType="String" resultMap="memberVO">

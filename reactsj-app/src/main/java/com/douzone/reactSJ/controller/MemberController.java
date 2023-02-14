@@ -73,15 +73,16 @@ public class MemberController {
 		Map<String, Object> result = new HashMap<>();
 
 		HttpSession session = request.getSession();
-		session = request.getSession();
 
 		try {
-			MemberVO member = memberService.memberSelectbyId(memberVO);
+			MemberVO member = memberService.memberSelectForLogin(memberVO);
 
 			if (member != null) {
 				session.setAttribute("isLogOn", true);
-				session.setAttribute("memberInfo", member);
+				session.setAttribute("memberId", member.getUserid());
 
+				result.put("isLogOn", true);
+				result.put("memberInfo", member);
 				result.put("status", true);
 				result.put("name", member.getUsername());
 			} else {
@@ -118,4 +119,42 @@ public class MemberController {
 		return result;
 	}
 
+	// 로그아웃
+	@PostMapping("/logout.do")
+	public Map<String, Object> logout(@RequestBody MemberVO memberVO, HttpServletRequest request) {
+		Map<String, Object> result = new HashMap<>();
+
+		HttpSession session = request.getSession();
+
+		session.setAttribute("isLogOn", false);
+		session.removeAttribute("memberInfo");
+
+		return result;
+	}
+
+	// 마이페이지
+	@PostMapping("/mypage.do")
+	public Map<String, Object> mypage(@RequestBody MemberVO memberVO, HttpServletRequest request) {
+		Map<String, Object> result = new HashMap<>();
+
+		HttpSession session = request.getSession();
+
+		if (!session.getAttribute("memberId").equals(memberVO.getUserid())) {
+			result.put("status", false);
+			result.put("message", "로그인 해주세요.");
+			return result;
+		}
+
+		try {
+			MemberVO member = memberService.memberSelectbyId(memberVO);
+			result.put("status", true);
+			result.put("memberVO", member);
+
+		} catch (Exception e) {
+			result.put("status", false);
+		}
+
+		System.out.println("회원정보 조회함 => " + result);
+		return result;
+	}
 }

@@ -20,7 +20,7 @@ public class MailService {
 		
 		try {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setFrom("tnwlssl0729@gmail.com", "SOOZPAGE");
+			messageHelper.setFrom("tnwlssl0729@gmail.com", "SOOZDOGZ");
 			messageHelper.setTo(to);
 			messageHelper.setSubject(subject);
 			messageHelper.setText(body, true);

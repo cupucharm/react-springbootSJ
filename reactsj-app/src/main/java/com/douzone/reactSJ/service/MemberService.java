@@ -21,7 +21,7 @@ public class MemberService {
 		memberDAO.memberInsert(memberVO);
 	}
 
-	public MemberVO memberSelectbyId(MemberVO memberVO) {
+	public MemberVO memberSelectForLogin(MemberVO memberVO) {
 		MemberVO tempMember = memberDAO.memberSelectbyId(memberVO.getUserid());
 		
 		if (tempMember.getUserpwd().equals(memberVO.getUserpwd())) {
@@ -43,5 +43,26 @@ public class MemberService {
 		} else {
 			return null;
 		}
+	}
+
+	public MemberVO memberSelectbyId(MemberVO memberVO) {
+		MemberVO member = memberDAO.memberSelectbyId(memberVO.getUserid());
+		
+		String ph1 = member.getUserphone().substring(0, 3);
+		String ph2 = member.getUserphone().substring(3, 7);
+		String ph3 = member.getUserphone().substring(7, 11);
+
+		StringBuilder phone = new StringBuilder();
+		phone.append(ph1).append("-").append(ph2).append("-").append(ph3);
+		member.setUserphone(phone.toString());
+		
+		StringBuilder pwd = new StringBuilder();
+		int len = (member.getUserpwd()).length();
+		for (int i=0; i<len; i++) {
+			pwd.append("*");
+		}
+		member.setUserpwd(pwd.toString());
+		
+		return member;
 	}
 }

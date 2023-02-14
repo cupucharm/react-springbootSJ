@@ -11,11 +11,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.douzone.reactSJ.service.MailService;
 import com.douzone.reactSJ.vo.MemberVO;
 
-@Controller("mailController")
+@RestController("mailController")
 @EnableAsync // 비동기로 호출되어서 동작함
 public class MailController {
 
@@ -43,7 +45,7 @@ public class MailController {
 			String content = str.toString();
 			content = content.replace("${checkNum}", checkNum);
 
-			String title = "[SOOZPAGE] 왓츠인페이지 회원가입 인증 이메일입니다.";
+			String title = "[SOOZDOGZ] SOOZDOGZ 회원가입 인증 이메일입니다.";
 			
 			mailService.sendMail(toMail, title, content);
 
