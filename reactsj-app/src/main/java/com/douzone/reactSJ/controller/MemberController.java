@@ -157,4 +157,34 @@ public class MemberController {
 		System.out.println("회원정보 조회함 => " + result);
 		return result;
 	}
+	
+	// 비밀번호 확인 
+	@PostMapping("/checkPw.do")
+	public Map<String, Object> checkPw(@RequestBody MemberVO memberVO, HttpServletRequest request) {
+		Map<String, Object> result = new HashMap<>();
+
+		HttpSession session = request.getSession();
+
+		if (!session.getAttribute("memberId").equals(memberVO.getUserid())) {
+			result.put("status", false);
+			result.put("message", "로그인 해주세요.");
+			return result;
+		}
+
+		try {
+			MemberVO member = memberService.memberSelectForLogin(memberVO);
+			
+			if (member != null) {
+				result.put("status", true);
+			} else {
+				result.put("status", false);
+			}
+
+		} catch (Exception e) {
+			result.put("status", false);
+		}
+
+		System.out.println("비밀번호 확인함 => " + result);
+		return result;
+	}
 }
